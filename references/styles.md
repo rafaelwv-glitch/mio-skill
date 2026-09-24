@@ -3,6 +3,7 @@
 **Rule 1 — defaults:** only `MOE`, `CEL00`, `PAINT` are used without being asked (LOOKS slots).
 **Rule 2 — on request:** every other ID is used only when the user names it, picks it from a list, or supplies art that maps to it.
 **Rule 3 — lock:** the chosen ID + 4–6 of its tokens become the `[STYLE]` block, reprinted verbatim every frame. Mixing two IDs requires an explicit user ask; write both IDs in the block.
+**Rule 5 — Greeting-recommended (★):** `SEMIGLOSS` and `GAMECG` drift least on close-up beats. Suggest them for greeting storyboards when the user asks which style to use; still never apply unasked.
 **Rule 4 — descriptors, not people:** styles are described by visible traits. Studio/era names appear only as a user-facing label; never require a living artist's name in a prompt.
 
 Format: `ID` · label · **tokens** (NL; pick 4–6) · tag hint (HARUKA) · use / avoid.
@@ -17,8 +18,8 @@ Format: `ID` · label · **tokens** (NL; pick 4–6) · tag hint (HARUKA) · use
 
 - `KEYVIS` · modern TV key visual · **crisp lineart, soft cel with gradient shadows, rim light, detailed background, polished key-visual finish**
 - `GACHA` · gacha/game splash art · **ornate layered costume, glossy highlights, dynamic key art pose, particle effects, game splash composition, high detail accessories**
-- `GAMECG` · game CG / official art · **game CG illustration, soft bloom, rich fabric folds, cinematic key light, official-art polish**
-- `SEMIGLOSS` · semi-real gloss · **thin sharp lineart, multi-highlight glassy eyes, glossy hair sheen, nose shine, smooth painterly skin**
+- ★ `GAMECG` · game CG / official art · **game CG illustration, soft bloom, rich fabric folds, cinematic key light, official-art polish**
+- ★ `SEMIGLOSS` · semi-real gloss · **thin sharp lineart, multi-highlight glassy eyes, glossy hair sheen, nose shine, smooth painterly skin**
 - `VNCG` · visual novel / galgame CG (PixAI block) · **visual novel CG style, Japanese bishoujo illustration, soft cel shading, romantic lighting, polished character rendering**
 - `KYO` · soft emotional TV drama · **delicate eye detail, fine individual hair strands, soft emotional lighting, gentle pastel grading, subtle blush**
 - `SKYCINE` · cinematic sky/film anime · **vivid detailed skies, towering clouds, lens flare, glowing light shafts, hyper-detailed painted backgrounds, cinematic atmosphere**
