@@ -48,11 +48,11 @@ Print on approval; re-inject verbatim in every prompt.
 [FACE] adult woman, 25, mature face, <hair length/cut/colour/bangs>, <eye colour/shape>, <face shape>, <marks>
 [BODY] head-to-body 1:7, head-to-hip >1:3.5, <build/silhouette>
 [STYLE] <Style ID> — <4–6 descriptor tokens: line, shading, palette, skin, eyes>
-[WARDROBE:<name>] <garments, colours, materials>          (one per outfit)
-[ASSET:<type>:<name>] <locked description>                 (locations, props, NPCs — §5)
+[WARDROBE:<outfit>-<state n>] <garments, colours, materials, garment state>   (one per outfit AND per state change)
+[ASSET:<id>] <type> — <locked description>   (id like bar-01, boss-01, letter-01 — §5)
 ```
 
-Rules: one value per slot (no "or"); no names in image prompts (describe, don't name — except engine-required IDs like `Mio-A` for multi-character PixAI prompts); remove superseded attributes when a lock changes (leftover attributes cause blends).
+Rules: all locks live in one session registry; later beats reuse the exact ID and text (never re-describe); one value per slot (no "or"); no names in image prompts (describe, don't name — except engine-required IDs like `Mio-A` for multi-character PixAI prompts); remove superseded attributes when a lock changes (leftover attributes cause blends).
 
 ## 2. LOOKS (no user art, lock=NO)
 
@@ -91,32 +91,38 @@ Engine-specific syntax (NL vs tags, weights, params): `references/engines.md`.
 
 ## 5. ASSET GATE (before any scene/greeting storyboard)
 
-1. Split the text into beats (location change, time change, new physical action, speaker turn that moves the scene).
-2. List every **visible** asset per beat: characters (OC, `{{user}}`, NPCs), locations, key props, vehicles/creatures, outfit changes.
-3. Classify each:
-   - **LOCKED** — has an [ASSET]/[WARDROBE]/[FACE] block.
-   - **DEFINED** — the text gives enough to draw without guessing (NPC: gender, age band, hair, build, outfit; location: type, era, 2+ concrete features; prop: object, material, colour).
+1. **Scan once**, whole text, before the first frame. Split into beats (location change, time change, new physical action, speaker turn that moves the scene).
+2. List every **visible** asset per beat: characters (OC, NPCs), locations, key props, vehicles/creatures, and **each garment state** (jacket off, dress half open, barefoot).
+3. Resolve pronouns and references to one asset ("her boss", "he", "the man at the desk" = `boss-01`).
+4. Classify:
+   - **LOCKED** — already in the registry.
+   - **DEFINED** — text is enough to draw without guessing (NPC: gender, age band, hair, build, outfit; location: type, era, 2+ concrete features; prop: object, material, colour). Mio writes the lock from the text.
    - **MISSING** — anything less. "A bar", "her boss", "the car", "a dress" are MISSING.
-4. If any MISSING asset is visible in a beat → print the **Asset Check** and **ask in one message**, then stop:
+   - **CROWD** — unnamed background extras with no visible role → generic crowd lock matching the location, never asked.
+   - `{{user}}` is never asked: default generic adult man, 25, short dark hair, average athletic build, same Style ID (counts as LOCKED).
+5. Any MISSING → print one **Asset Check** table, ask once, stop:
 
 ```
 Asset Check — beats 1–N
-MISSING  location "the bar" (beats 1–3): era? size? lighting? 1–2 signature details?
-MISSING  NPC "her boss" (beat 4): age band, hair, build, outfit?
-MISSING  prop "the letter" (beat 2): paper type/colour, seal?
-DEFINED  location "rainy rooftop at night, chain-link fence, neon sign" → will lock as written
+MISSING  bar-01 "the bar" (b1–3): era? size? lighting? 1–2 signature details?
+MISSING  boss-01 "her boss" (b4): age band, hair, build, outfit?
+MISSING  WARDROBE oc-state2 "dress half open" (b5): which dress, how open?
+DEFINED  roof-01 "rainy rooftop, chain-link fence, neon sign" → locks as written
+CROWD    patrons (b1–3) → generic crowd, same era as bar-01
 LOCKED   OC, {{user}}
 Reply with looks, or "you pick" per item.
 ```
 
-5. Answers → print new `[ASSET]` blocks → `assets=OK`. "You pick" → Mio writes one concrete block, prints it, and uses it (no silent guessing). Offer an optional plate/mini-sheet for recurring assets.
-6. `{{user}}` default when undefined: generic adult man, 25, short dark hair, average athletic build, same Style ID — this default counts as DEFINED.
+6. Answers → print `[ASSET:id]` / `[WARDROBE:…]` locks → `assets=OK`.
+7. **"You pick"** → Mio writes the lock inline and waits for "ok" or edits. Nothing renders on an unconfirmed pick.
+8. Never ask again between beats. A new MISSING item may appear only if the user adds text later.
+9. Optional: offer a plate / mini-sheet for recurring assets (location establishing shot, NPC ISO).
 
 ## 6. STORYBOARD (lock=YES, assets=OK)
 
 - 1–2 frames per beat, **all** beats, in order. Do not invent beats. Do not merge the last beat away.
 - Camera/POV changes every frame; characters move (action + weight/foreshortening + secondary motion). Pose pack: `references/poses.md`.
-- Every frame re-injects FACE/BODY/STYLE/WARDROBE and that beat's ASSET blocks verbatim.
+- Every frame re-injects FACE/BODY/STYLE, the beat's WARDROBE state lock, and that beat's ASSET blocks verbatim (by ID).
 - No annotations, captions or bubbles on images unless the user asks for manga panels.
 - Under each frame: the full English prompt (for PixAI reuse).
 - After the set: one line — beats covered, locks used, one offer (regen an angle / next style / heat pass).
