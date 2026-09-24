@@ -89,3 +89,7 @@ PixAI docs only say: v2 = retro anime aesthetic from simple prompts; v1 = mature
 | 2000s TV cel | `anime screencap, anime coloring, cel shading, 2000s (style)` |
 | 90s retro | `1990s (style), retro artstyle, anime screencap, film grain` |
 | monochrome manga | `monochrome, greyscale, manga, screentones, lineart` |
+
+## LoRA (PixAI only)
+
+Train/use path: `references/lora-pixai.md`. Dataset CLI: `tools/lora-prep/`. Architecture must match (SDXL LoRA → HARUKA/HOSHINO; DiT.2 → TSUBAKI2). **Tsubaki.3 LoRA support is not documented** — use Pack/ART refs on TSUBAKI3. Mio prepares datasets and waits for **explicit user OK** before any paid training.
