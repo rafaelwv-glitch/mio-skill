@@ -86,7 +86,7 @@ Full body, head to toe, feet in frame, front or mild contrapposto, character-she
 2D illustration, not a photograph. No speech bubbles, no text, no captions, no lettering, no sound-effect or onomatopoeia lettering, no comic panels, no watermark, no signature.
 ```
 Use **neutral white light** for ISO sheets — warm or coloured light shifts skin and hair and the shift then propagates through every frame.
-If the engine delivers landscape only (see `engines.md` → Grok Bot runtime), compose a two-view sheet: full body front on the left, bust close-up on the right, same character, no labels — then crop into `ISO-1` (full body) and `ANCHOR-FACE` (bust). The face anchor carries the eye and skin rendering at usable resolution.
+If the engine delivers landscape only (see `engines.md` → Grok Bot runtime), compose a two-view sheet: full body front on the left, bust close-up on the right, same character, no labels — then crop into `ISO-1` (full body) and `ANCHOR-FACE` (bust). The face anchor carries the eye and skin rendering at usable resolution. **Confirmed in testing:** the two-view sheet plus crop gives a usable ISO and ANCHOR-FACE.
 
 ## 4. Style- & identity-fidelity check (before the ISO is offered for approval)
 
@@ -97,10 +97,12 @@ fidelity: line ✓ · shading ✗ (flatter, less airbrush depth) · gloss ✗ (m
 Axes: line · shading · gloss · palette · skin-tone · hair-colour · hair-length · eyes (colour, highlight layers, lash rendering) · silhouette (build and proportions; must not get slimmer) · medium. Allowed differences: pose, background, adultify allowance (§2).
 
 **Fidelity ladder** (one rung per retry; say which rung):
-- **F1** re-roll from the original, identical prompt.
+**Entry by axis:** identity axes (skin-tone, hair-colour, hair-length, eyes, silhouette) **skip F1 and start at F2** — an identical re-roll made identity worse in testing (skin tanned, hair shorter). Style axes start at F1. **Gloss on Grok** usually stops at satin: after F2, go to F4 if real PixAI-level gloss matters, or accept satin and say so (`engines.md` → Grok Bot runtime).
+
+- **F1** re-roll from the original, identical prompt (style axes only).
 - **F2** re-roll once with the failing locks moved directly after the reference sentences and emphasised: "Skin tone, hair colour and length, eye rendering, gloss and body proportions exactly as in reference 1 — [IDENTITY-COLOURS] [STYLE-SOURCE gloss/shading fields]." (re-stating locks, not new adjectives)
 - **F3** switch to the **edit path** (§3) — edit the original instead of generating.
-- **F4** switch engine/slot: Tsubaki.3 prompt-box reference (`@image1`) or Reference Pro edit.
+- **F4** switch engine/slot: Tsubaki.3 prompt-box reference (`@image1`) or Reference Pro edit — the only rung that reliably reaches true PixAI-style gloss.
 - **F5** show the best attempt, name the failing axes, ask.
 Never accept a prettier but different style, a matte version of a glossy source, or a slimmer figure.
 
@@ -115,9 +117,10 @@ On approval: print `[CANVAS-STYLE]`, `[STYLE-SOURCE]`, `[IDENTITY-COLOURS]`, FAC
 | 1 | Anchor (approved ISO; `ANCHOR-FACE` for close-ups; original if no ISO yet) — **subject + style, always** | "From reference 1 take the character and the rendering style. Match the reference's rendering exactly; do not restyle." |
 | 2 | **EXT assets:** the original source art — **style anchor**, every frame | "From reference 2 take only the rendering style — line, shading, gloss, palette, skin and eye rendering — not the pose, background or composition." |
 | 2/3 | pose / outfit / composition sketch (optional) | "From reference N take the pose only." (or outfit only) |
-| 3 | setting / light mood (optional) | "From reference 3 take background and light direction only. Do not take line language, shading, palette, or face from reference 3." |
+| 3 | **`ANCHOR-FACE` whenever the face is medium-size or larger** (medium, cowboy, bust, close-up) | "From reference 3 take only her face, hair colour and eye rendering." |
+| 3 | otherwise: setting / light mood (optional) | "From reference 3 take background and light direction only. Do not take line language, shading, palette, or face from reference 3." |
 
-- Keep the original as Ref2 whenever a slot is free (if all 3 slots are needed, drop the setting ref first and describe the setting in text). `EXT:` covers both the user's own art and characters generated elsewhere.
+- Keep the original as Ref2 whenever a slot is free; drop the setting ref first (describe the setting in text) so ANCHOR-FACE and the original both fit. `EXT:` covers both the user's own art and characters generated elsewhere.
 - **Tsubaki.3:** put identity/style refs in the **reference slot of the prompt box** (`@image1`, `@image2`). Never put the character in the **base image** slot — it keeps pose/composition/palette/texture but **replaces the character** (PixAI Tsubaki.3 guide).
 - Never use a generated frame as Ref1 or as the style ref (see `storyboard-consistency.md`).
 - Seed: only where the engine exposes it (PixAI Tsubaki.2/1, Haruka); Grok has none — do not invent one.
@@ -136,10 +139,12 @@ Once approved, that NPC's own ISO becomes its anchor; the original stays the sty
 ```
 From reference 1 take the character and the rendering style. Match the reference's rendering exactly; do not restyle.
 [From reference 2 take only the rendering style — line, shading, gloss, palette, skin and eye rendering — not the pose, background or composition.]   (EXT)
-[From reference 3 take background and light direction only. Do not take line language, shading, palette, or face from reference 3.]
+[From reference 3 take only her face, hair colour and eye rendering.]   (ANCHOR-FACE, face medium-size or larger; else the setting sentence)
+Skin tone, hair colour, hair length, eye colour and body proportions exactly as in reference 1 and as listed in [IDENTITY-COLOURS]; the scene light does not change them.   (EXT: first attempt, every frame)
 [CANVAS-STYLE] [STYLE-SOURCE·S] [IDENTITY-COLOURS] [FACE] [BODY] [WARDROBE] [ASSET…]
 A single illustration. Change only: <pose / camera / setting / garment state as requested>.
 <shot type>, <angle>. <action + weight shift + secondary motion>.
-<light>; the light does not change her skin tone or hair colour.
+<location lock> — no other signs, boards, posters or written surfaces besides the locked ones.
+Neutral white key light on the characters, <warm accents>; the light does not change her skin tone or hair colour.
 2D illustration, not a photograph. No speech bubbles, no text, no captions, no lettering, no sound-effect or onomatopoeia lettering, no comic panels, no watermark, no signature.
 ```

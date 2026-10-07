@@ -30,9 +30,12 @@ SET LOCK · anchor=ISO-1 (+ ANCHOR-FACE) · style-ref=ISO-1 (+ original for EXT)
 - Engine stays the same. Switching engine = new set, re-anchor first.
 - PixAI engines with a seed (Haruka, Tsubaki.1, Tsubaki.2): keep a fixed seed while only camera/pose change; change the seed only as a deliberate re-roll. Grok has no seed.
 - Keep the identity locks **early** in the prompt (skeleton order); scene detail comes after. `[IDENTITY-COLOURS]` is never shortened; `[STYLE-SOURCE]` may use its short form while the original is attached.
-- Every light description ends with: "the light does not change her skin tone or hair colour". Prefer neutral or cool fill plus a warm accent over all-warm lighting.
-- Close-ups and bust shots use `ANCHOR-FACE` as Ref1 when it exists.
-- Counts are locked as "exactly N" and repeated in the frame ("exactly two coffee cups").
+- **Identity sentence in the first attempt (EXT assets):** every frame — not only retries — carries, directly after the reference sentences: "Skin tone, hair colour, hair length, eye colour and body proportions exactly as in reference 1 and as listed in [IDENTITY-COLOURS]; the scene light does not change them." Light defaults to the R4 setup: neutral white key light on the characters, warm practical lamps only as background accents. (Test: without this, skin tanned in all four first attempts under warm interior light.)
+- **ANCHOR-FACE as extra reference** whenever the face is medium-size or larger (medium shot, cowboy shot, bust, close-up): `Ref1=ISO-1 · Ref2=original · Ref3=ANCHOR-FACE` with "From reference 3 take only her face, hair colour and eye rendering." The setting ref is dropped first; describe the setting in text. Close-ups and bust shots may use `ANCHOR-FACE` as Ref1.
+- **Wide shots protect the silhouette:** a small figure in a wide frame gets slimmed (test: the wide establishing frame lost the curvy build). Prefer a full shot where she fills ≥ ~half the frame height; if the beat needs a true wide shot, repeat the BODY lock in explicit proportion words ("soft curvy adult build with full hips and thighs, the same body proportions as reference 1, unchanged at this distance") — or split into an establishing plate plus a closer frame.
+- **POV frames:** the viewer's visible arms/hands are `{{user}}` and wear the `{{user}}` wardrobe (default: heather-grey t-shirt sleeve, bare forearm). Write it into the frame: "the viewer's own forearm in a heather-grey t-shirt sleeve reaches in from the lower edge". (Test: an unlocked navy sleeve appeared.)
+- **Counts** are locked as "exactly N" and repeated in the frame ("exactly two coffee cups", "exactly one display board"). They keep their position in every attempt — a retry never moves them to the back of the prompt.
+- **Location locks** end with: "no other signs, boards, posters or written surfaces besides the locked ones". (Test: a retry invented a second, unlocked board with pseudo-text.)
 - **Slot mapping:** fixed number of images but more beats → merge adjacent beats per slot, print the map once, keep the last beat in its own slot.
 
 ## 3. Drift checklist (after every frame)
@@ -60,7 +63,12 @@ drift: face ✓ · skin-tone ✓ · hair-colour ✓ · hair-length ✓ · eyes �
 
 One rung per retry; say which rung. "Identity axes" = face, skin-tone, hair-colour, hair-length, eyes, silhouette.
 
-- **R1 — regen from anchor, identity emphasised (once):** same prompt, but move `[IDENTITY-COLOURS]` (and the failing FACE/BODY field) directly after the reference sentences and add exactly one sentence: "Skin tone, hair colour, hair length, eye colour and body proportions exactly as in reference 1 and as listed; the scene light does not change them." This restates locks — it is not a patch.
+**Entry point by axis:**
+- **skin-tone / hair-colour** (identity colours) on a frame with **one main figure** → start at **R2**. Hair colour did not recover with R1 in testing, and EXT frames already carry the R1 sentence from the first attempt.
+- skin-tone / hair-colour with **several figures** in frame → R1 once (with ANCHOR-FACE as Ref3), then R3 (correction edit of the best frame) before R2.
+- other identity axes (face, hair-length, eyes, silhouette) → R1, then R2. Silhouette in a wide shot → R4 (closer camera) first.
+
+- **R1 — regen from anchor, identity emphasised (once):** same prompt, but move `[IDENTITY-COLOURS]` (and the failing FACE/BODY field) directly after the reference sentences, keep the identity sentence, add ANCHOR-FACE as Ref3 if the face is medium-size or larger. **Everything else keeps its position** — count locks ("exactly one board"), location lock and its no-other-signs clause, NO-TEXT clause. Re-check counts and text on the result: a retry that adds an object or lettering fails even if identity improved.
 - **R2 — reference-only edit of the anchor:** stop generating fresh. Edit the anchor into the frame: "Using reference 1, change only the pose, camera and background to: <beat>. Keep skin tone, hair colour and length, eyes, body proportions, outfit and the exact rendering unchanged." (Grok edit / Tsubaki.3 NL edit with `@image1` / Reference Pro.) Best for single-character frames.
 - **R3 — targeted correction edit:** keep the best frame as the base image and edit only the failing axis back, with the anchor as the identity reference: "Change only her hair colour and length (or skin tone) to match reference 1; keep everything else unchanged." The frame is the canvas being edited, never the identity reference.
 - **R4 — remove the cause (one change):** neutral/cool key light instead of warm, closer camera, or fewer characters in frame (split a crowded beat into two frames). Then repeat R1.
@@ -87,12 +95,13 @@ Style axes (gloss, line, shading, palette) and counts follow the same ladder fro
 ```
 From reference 1 take the character and the rendering style. Match the reference's rendering exactly; do not restyle.
 [EXT: From reference 2 take only the rendering style — line, shading, palette, skin and eye rendering — not the pose, background or composition.]
-[From reference 3 take background and light direction only. Do not take line language, shading, palette, or face from reference 3.]
+[Ref3 = ANCHOR-FACE when the face is medium-size or larger: From reference 3 take only her face, hair colour and eye rendering. — otherwise: From reference 3 take background and light direction only. Do not take line language, shading, palette, or face from reference 3.]
+[Identity sentence (EXT): Skin tone, hair colour, hair length, eye colour and body proportions exactly as in reference 1 and as listed in [IDENTITY-COLOURS]; the scene light does not change them.]
 [CANVAS-STYLE] [STYLE-SOURCE·S] 2D anime illustration of an original fictional adult, not a photograph.
 A single illustration: <beat summary>, <crop>, <orientation — compose for the frame the engine actually delivers>.
 [IDENTITY-COLOURS] [FACE] [BODY] [WARDROBE:<outfit>-<state n>] — <position>, <action + weight shift + secondary motion>, <expression; speech shown as expression only>.
-[NPC sentence] [ASSET:…] (NPCs with their own colours, location, props with "exactly N", text props blank) — <light direction, time>; the light does not change her skin tone or hair colour.
+[POV: the viewer's own forearm in the {{user}} sleeve …] [NPC sentence] [ASSET:…] (NPCs with their own colours, location + "no other signs, boards, posters or written surfaces besides the locked ones", props with "exactly N", text props blank) — neutral white key light on the characters, <warm accents, time>; the light does not change her skin tone or hair colour.
 <shot type>, <angle>, <lens feel>.
 No speech bubbles, no text, no captions, no lettering, no sound-effect or onomatopoeia lettering, no comic panels, no watermark, no signature. Correct hands, no extra limbs.
 ```
-Under the frame: `refs: Ref1=ISO-1 · Ref2=original · Ref3=bar-01 plate`, the drift line, and the ladder rung if a retry was needed.
+Under the frame: `refs: Ref1=ISO-1 · Ref2=original · Ref3=ANCHOR-FACE` (or setting plate), the drift line, and the ladder rung if a retry was needed.

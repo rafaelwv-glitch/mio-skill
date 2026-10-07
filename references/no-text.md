@@ -55,5 +55,6 @@ Recipe — keep the object, drop the text:
 2. If blank looks wrong for the object, use **abstract unreadable marks**: "abstract unreadable squiggle marks", "blurred illegible print", "simple geometric pattern instead of a logo". Never "small text", "a name", "letters", "writing".
 3. Clothing: "plain, no print, no logo, nothing written on it". Packaging: "plain kraft paper, a simple coloured band, no label text". Screens: "soft abstract interface glow, no readable characters". Letters/notes: "folded paper, writing not legible".
 4. The words the prop would carry (names on shirts, the title on the board) go **in chat under the image**, never into the prompt — not even in quotes, not even negated ("no text saying '<name>'" still plants the word).
-5. Drift check: any readable glyph on a prop counts as a ✗ → regenerate (§5).
+5. Drift check: any readable or pseudo-readable glyph on a prop counts as a ✗ → regenerate (§5).
+6. **Unlocked text surfaces:** engines invent extra signs, boards or posters, especially on retries. Every location lock ends with "no other signs, boards, posters or written surfaces besides the locked ones", and a retry keeps the count locks ("exactly one display board") in place. An invented surface with pseudo-text fails the frame (text ✗ + counts ✗).
 This stays inside the Hard Limit: `bubbles=ON` unlocks bubbles and lettering only where the user explicitly asked for them; text props stay blank otherwise.
