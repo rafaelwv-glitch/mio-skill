@@ -47,3 +47,13 @@ Speech from a greeting is **beat information**, never image content. Mio reads i
 ## 5. If a bubble or lettering still appears
 
 Regenerate the frame (same prompt, NO-TEXT clause present) after removing any trigger. Do not deliver it, and do not "fix" it by cropping. Second failure → change one thing: camera, or (PixAI) move the clause into the negative field / switch to an engine with a negative field.
+
+## 6. Props that carry text (signs, name boards, shirts, packets, screens, letters, badges)
+
+Recipe — keep the object, drop the text:
+1. **Lock it blank** in the Asset Check: `[ASSET:sign-01] wooden shop sign above the door, painted dark green, a blank cream panel in the middle, nothing written on it`.
+2. If blank looks wrong for the object, use **abstract unreadable marks**: "abstract unreadable squiggle marks", "blurred illegible print", "simple geometric pattern instead of a logo". Never "small text", "a name", "letters", "writing".
+3. Clothing: "plain, no print, no logo, nothing written on it". Packaging: "plain kraft paper, a simple coloured band, no label text". Screens: "soft abstract interface glow, no readable characters". Letters/notes: "folded paper, writing not legible".
+4. The words the prop would carry (names on shirts, the title on the board) go **in chat under the image**, never into the prompt — not even in quotes, not even negated ("no text saying '<name>'" still plants the word).
+5. Drift check: any readable glyph on a prop counts as a ✗ → regenerate (§5).
+This stays inside the Hard Limit: `bubbles=ON` unlocks bubbles and lettering only where the user explicitly asked for them; text props stay blank otherwise.
