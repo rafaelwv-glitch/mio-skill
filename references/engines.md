@@ -34,13 +34,18 @@ Other PixAI models named in PixAI's 2026 guide (Mio uses them only when asked): 
 
 ## Grok Bot runtime — GenerateImage tool (observed behaviour)
 
-Observed in one Mio 2.2 test run (2026-10-07, 7 images): when `reference_image_paths` were attached, the GenerateImage tool **ignored the requested `aspect_ratio`** — jobs requested as 2:3 and 3:4 all came back **16:9 (1280×720)**. Only this case was observed; whether it holds without references, for other ratios or after tool updates is untested.
+Observed in Mio test runs (2026-10-07; first run 7 images): when `reference_image_paths` were attached, the GenerateImage tool **ignored the requested `aspect_ratio`** — jobs requested as 2:3 and 3:4 all came back **16:9 (1280×720)**. Only this case was observed; whether it holds without references, for other ratios or after tool updates is untested.
 
 Workaround until confirmed otherwise:
 - State crop and orientation **in the prompt** as well ("vertical composition, full body, head to toe") — but **compose for the frame actually delivered**: assume 16:9 when references are attached.
 - Single-figure portraits/ISO in 16:9: either a two-view sheet (full body left, bust close-up right, no labels) or a figure that fills the frame height; then **crop afterwards** to the wanted ratio (a crop does not touch the rendering).
 - Do not let a small figure in a wide frame become the anchor: crop a face/bust anchor (`ANCHOR-FACE`) so eye and skin rendering keep enough pixels.
 - Report the delivered ratio under the frame if it differs from the request.
+- **Confirmed (second test run, same day):** the two-view sheet + crop workaround gives a usable ISO-1 and ANCHOR-FACE.
+
+**Known limit — PixAI-style gloss on Grok / GenerateImage (observed in both test runs):** even with explicit gloss tokens, Grok renders glossy PixAI-like sources at **satin** level — fewer, softer specular highlights, less wet sheen on skin and eyes. Shading depth, eye layers, skin tone and silhouette can be matched; true PixAI gloss could not. Mio says so honestly instead of re-rolling: offer **F4** (PixAI Tsubaki.3 with the source in the prompt-box reference slot, or Reference Pro edit) when gloss matters, otherwise deliver at satin and mark `gloss ✗ (engine limit)`. This is an observation from two runs, not a documented engine spec.
+
+Other observations from the same runs (EXT asset, warm evening interior): skin tanned on all first attempts until the identity sentence was added; hair colour kept darkening under warm light even after R1; a retry once invented an extra, unlocked board with pseudo-text; a wide shot slimmed the figure; a POV arm came out in an unlocked sleeve. The countermeasures are in `storyboard-consistency.md` §2/§4.
 
 ## TSUBAKI3 (PixAI flagship)
 

@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.2.2 — 2026-10-07
+Fixes from the second test run (EXT asset, 4-slot storyboard on Grok).
+- **Hair/skin colour drift:** identity-colour drift on a single-figure frame goes straight to **R2** (anchor edit); with several figures R1 once → R3 → R2. **ANCHOR-FACE** rides as an extra reference (Ref3) whenever the face is medium-size or larger; the setting ref is dropped first.
+- **Fidelity ladder:** identity axes (skin, hair colour/length, eyes, silhouette) skip F1 and start at F2; F1 is for style axes only.
+- **Gloss limit documented:** PixAI-style gloss stays at satin on Grok/GenerateImage (observed in both runs); real gloss needs F4 (Tsubaki.3 reference slot / Reference Pro). Mio says so instead of re-rolling and marks `gloss ✗ (engine limit)`.
+- **Invented text surfaces:** location locks end with "no other signs, boards, posters or written surfaces besides the locked ones"; R1 never moves count locks or the NO-TEXT clause — retries are re-checked for added objects/lettering.
+- **Identity sentence in the first attempt** for EXT assets (not only on retry); neutral white key light on characters with warm practicals as background accents is the default.
+- **Wide shots:** silhouette protected proactively — prefer a full shot (figure ≥ ~half frame height), explicit body-proportion wording at distance, or split into plate + closer frame; silhouette drift in a wide shot starts at R4.
+- **POV:** the viewer's visible arms/hands inherit the `{{user}}` wardrobe (default heather-grey t-shirt sleeve).
+- **Confirmed:** the 16:9 workaround (two-view ISO sheet + crop into ISO-1 and ANCHOR-FACE) works.
+
 ## 2.2.1 — 2026-10-07
 Fixes from a real test run (EXT asset + 4-frame greeting storyboard on Grok).
 - **Identity colours separated from the style palette:** new `[IDENTITY-COLOURS]` lock per character (skin, hair, eyes; named + approx hex), re-injected verbatim every frame, never shortened; `[STYLE-SOURCE]`/`[CANVAS-STYLE]` keep only the rendering palette, so NPCs no longer drift toward the main character's colouring. Hair length as a measurable landmark in FACE.

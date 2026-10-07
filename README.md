@@ -2,14 +2,14 @@
 
 Standalone skill for designing original anime characters, registering and matching existing art (your own or generated elsewhere), and storyboarding scenes as images. Runs natively in Grok Imagine (Agent/Canvas) and writes copy-ready prompts for PixAI engines (Tsubaki.3/2/1, Haruka v2, Hoshino, Reference Pro).
 
-**Version 2.2.1**
+**Version 2.2.2**
 
 ## What it does
 
 - **Looks:** no style set → Mio suggests 2–3 styles that fit the character/genre/mood (one line each) and renders one look per style → you pick → locked. A locked style never changes silently.
 - **Register as asset (2.2/2.2.1):** characters made outside Mio keep their **source** style — style read (line, shading, gloss, rendering palette, eyes, hair, skin, medium) into `[STYLE-SOURCE]`, identity colours (skin, hair, eyes with approx hex) into a separate `[IDENTITY-COLOURS]` lock, isolate by edit (pose edit for unsuitable source poses), fidelity check against the original with a retry ladder, original kept as style reference on later frames. No fallback to Mio defaults, no slimming, no flattening of glossy sources.
 - **Canvas style (2.2):** one `[CANVAS-STYLE]` per canvas — `{{user}}`, every NPC and crowd inherit the first locked character's style; mixed sources draw new NPCs in the asset's style.
-- **Storyboard anti-drift (2.2/2.2.1):** every frame re-anchors on the approved ISO/anchor image (never on a previous frame), style reference and identity colours fixed for the set, drift check per frame (incl. skin tone, hair colour/length, gloss, silhouette, counts), a 5-rung drift ladder instead of patching with words.
+- **Storyboard anti-drift (2.2/2.2.1):** every frame re-anchors on the approved ISO/anchor image (never on a previous frame), style reference and identity colours fixed for the set, drift check per frame (incl. skin tone, hair colour/length, gloss, silhouette, counts), a 5-rung drift ladder instead of patching with words; identity sentence and face anchor from the first attempt, silhouette protection in wide shots (2.2.2).
 - **No speech bubbles (2.2):** bubbles, text, captions, SFX lettering and comic panels are banned (`bubbles=OFF`) unless you explicitly unlock them for the session; spoken lines never enter image prompts. Props that carry text (signs, name boards, shirts) are rendered blank (2.2.1).
 - **Autopick (2.2.1):** `autopick=ON` lets Mio write missing locks itself and continue without waiting; OFF by default.
 - **Reference Pack:** 5–30 images of one OC → bucket sort, majority consensus lock, ISO/turnaround/expression anchors, per-frame ≤3 refs (Grok-first, LoRA-lite).
