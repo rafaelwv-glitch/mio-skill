@@ -16,7 +16,7 @@ Sources: PixAI Docs — LoRA usage / train-your-own, model parameters, credit co
 - **Same subject**, adults only (25, 1:7 presentation). No real-person photos.
 - Variety: face close-ups, full body, profile/back, several expressions, several outfits, clean backgrounds mixed with simple scenes.
 - Consistent identity (hair/eyes/face). Conflicts resolved before training (ask; never average).
-- **No** watermarks, burned-in text, other people, logos, heavy meme overlays.
+- **No** watermarks, burned-in text, speech bubbles, SFX lettering, other people, logos, heavy meme overlays (text in training images teaches the LoRA to draw text).
 - Prefer PNG after prep; longest side ≥ 512 (1024 recommended for SDXL/DiT).
 - Prep helper: `tools/lora-prep/prep.py` (dedupe, resize, captions, manifest).
 
@@ -30,7 +30,7 @@ A LoRA **only works on the matching architecture**.
 | SDXL | Haruka v2, Hoshino | `HARUKA` / `HOSHINO*` | classic anime; tag prompts; best hands/eyes stack |
 | DiT.1 | Tsubaki (DiT.1) | `TSUBAKI1` family | NL prompts; shorter triggers OK per DiT.1 guidance |
 | DiT.2 | Tsubaki.2 | `TSUBAKI2` | NL; trigger **≥ 30 characters** recommended |
-| *(Tsubaki.3)* | — | `TSUBAKI3` | **Tsubaki.3 LoRA support is not documented** as of 2026-09 — do not promise a T3 LoRA; use Pack refs / RefPro on T3, or train DiT.2 for Tsubaki.2 |
+| *(Tsubaki.3)* | — | `TSUBAKI3` | **Unverified** (2026-10): training docs list only SD1.5/SDXL/DiT.1/DiT.2; the Tsubaki.3 FAQ mentions LoRAs and some user LoRA pages show a "DiT.3" tag. Do not promise a T3 LoRA; use Pack refs / RefPro on T3, or train DiT.2 for Tsubaki.2 |
 
 Pick from the user's target engine. Default recommendation for new anime OCs: **SDXL → Haruka** (flexible + LoRA ecosystem) or **DiT.2 → Tsubaki.2** (NL + consistency). Say the credit cost band when offering (docs: SD1.5 lowest → SDXL → DiT.1 → DiT.2 highest; dataset-reuse retrain may discount — cite current PixAI pricing page, don't invent numbers in-chat if unsure).
 
@@ -88,6 +88,6 @@ State line `engine=HARUKA` or `engine=TSUBAKI2` (etc., matching architecture).
 ## Never
 
 - Start paid training without explicit user OK.
-- Promise Tsubaki.3 LoRA support while undocumented.
+- Promise Tsubaki.3 LoRA support while unverified.
 - Train on real-person photos or under-age reads.
 - Average conflicting identity traits into the trigger.
