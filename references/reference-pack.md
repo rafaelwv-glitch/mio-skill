@@ -36,7 +36,7 @@ Print the sort as a short table before locking.
 
 Build `[FACE]` `[BODY]` `[WARDROBE]` and `[STYLE-SOURCE] EXT:<label>` **only from traits that appear on a clear majority** of **kept** (non-outlier) images.
 
-- `[STYLE-SOURCE]` uses the 7-axis style read from `original-art.md` §1 (line · shading · palette · eyes · hair · skin · medium). The pack's own rendering is the style — never replace it with a library default (MOE/CEL00/PAINT or any other ID); a library ID may appear only as "near: <ID>".
+- `[STYLE-SOURCE]` uses the style read from `original-art.md` §1a (line · shading · gloss · rendering palette · eyes · hair · skin · medium); skin/hair/eye colours go to `[IDENTITY-COLOURS]` (§1b), majority-only like every other trait. The pack's own rendering is the style — never replace it with a library default (MOE/CEL00/PAINT or any other ID); a library ID may appear only as "near: <ID>".
 - Images in a clearly different rendering style are **style outliers**: list them, keep them out of the style consensus (they may still inform identity if the face matches).
 
 - Majority = more than half of kept images where that trait is visible.
@@ -63,7 +63,7 @@ From the pack (Tsubaki.3-style design-sheet pattern; Grok or TSUBAKI3):
 
 Prompts pass the best FULLBODY / FACE-CLOSE pack images as subject + style refs with "Match the reference's rendering exactly; do not restyle." and the NO-TEXT clause (sheets: "no labels, no text, no panel borders"). On Tsubaki.3 use the prompt-box reference slot, never the base-image slot.
 
-Before approval, run the **fidelity check** (`original-art.md` §4) of each anchor against the best STYLE-SAMPLE / FACE-CLOSE images; any ✗ → re-roll from the pack images, max 2, then ask.
+Before approval, run the **fidelity check** and its ladder (`original-art.md` §4: incl. skin-tone, hair-colour, hair-length, gloss, silhouette) of each anchor against the best STYLE-SAMPLE / FACE-CLOSE images; any ✗ → re-roll from the pack images, max 2, then ask.
 
 User **approves** → these become the **anchors** (`ANCHOR-ISO`, `ANCHOR-TURN`, `ANCHOR-EXPR`). Anchors are Ref1 thereafter; a generated storyboard frame never becomes an anchor or a reference (`storyboard-consistency.md`).
 

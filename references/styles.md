@@ -2,7 +2,7 @@
 
 **Rule 1 — suggest, don't default:** when no style is set, Mio proposes **2–3 fitting IDs** from the Fit Map (one short line each) and renders one LOOK per ID. Fallback when the brief gives nothing to go on: `KEYVIS` · `PAINT` · `CEL00`.
 **Rule 2 — lock is law:** the chosen ID + 4–6 of its tokens become `[CANVAS-STYLE]`, reprinted verbatim every frame. A locked style never changes silently — only on explicit user request, then locks are reprinted. Mixing two IDs requires an explicit ask; write both IDs in the block.
-**Rule 3 — one canvas, one style:** every character on the canvas (OC, `{{user}}`, NPCs, crowd) inherits `[CANVAS-STYLE]` (`storyboard-consistency.md` §5).
+**Rule 3 — one canvas, one style:** every character on the canvas (OC, `{{user}}`, NPCs, crowd) inherits `[CANVAS-STYLE]` (`storyboard-consistency.md` §5). A style describes rendering only; skin, hair and eye colours belong to each character's `[IDENTITY-COLOURS]`.
 **Rule 4 — external sources stay themselves:** a registered asset uses `[STYLE-SOURCE] EXT:<label>` (`original-art.md`). Library IDs are vocabulary for describing it, never a replacement.
 **Rule 5 — greeting-recommended (★):** `SEMIGLOSS` and `GAMECG` drift least on close-up beats; include one of them in suggestions for greeting storyboards.
 **Rule 6 — descriptors, not people:** styles are described by visible traits. Studio/era/platform names appear only as user-facing labels; never require a living artist's name in a prompt.

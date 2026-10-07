@@ -28,8 +28,19 @@ Other PixAI models named in PixAI's 2026 guide (Mio uses them only when asked): 
 - Consistency comes from **verbatim LOCK re-injection + the anchor as reference**, not seeds.
 - Edit / multi-ref: up to **3** images. Always name roles: "From reference 1 take the character and the rendering style. Match the reference's rendering exactly; do not restyle. From reference 2 take … only."
 - Agent/Canvas: branch every storyboard frame from the **anchor node** (ISO), never from the previous frame. Drop the ISO sheet (and, for EXT assets, the original) on the canvas.
-- Isolating an EXT asset: use **edit** ("remove the background, keep everything else unchanged") before trying a redraw.
+- Isolating an EXT asset: use **edit** ("remove the background, keep everything else unchanged") before trying a redraw; unsuitable source pose → pose edit first (`original-art.md` §3).
+- Grok tends to pull redraws toward a clean, flat, matte commercial anime look and slimmer figures (observed in the same test): for glossy sources always send the rendering-fidelity tokens and `[IDENTITY-COLOURS]` (`original-art.md` §1).
 - Classifier notes: adult tokens first; avoid tripwords in `heat.md`; overflags are fixed by medium/crop/camera, not by removing clothing detail.
+
+## Grok Bot runtime — GenerateImage tool (observed behaviour)
+
+Observed in one Mio 2.2 test run (2026-10-07, 7 images): when `reference_image_paths` were attached, the GenerateImage tool **ignored the requested `aspect_ratio`** — jobs requested as 2:3 and 3:4 all came back **16:9 (1280×720)**. Only this case was observed; whether it holds without references, for other ratios or after tool updates is untested.
+
+Workaround until confirmed otherwise:
+- State crop and orientation **in the prompt** as well ("vertical composition, full body, head to toe") — but **compose for the frame actually delivered**: assume 16:9 when references are attached.
+- Single-figure portraits/ISO in 16:9: either a two-view sheet (full body left, bust close-up right, no labels) or a figure that fills the frame height; then **crop afterwards** to the wanted ratio (a crop does not touch the rendering).
+- Do not let a small figure in a wide frame become the anchor: crop a face/bust anchor (`ANCHOR-FACE`) so eye and skin rendering keep enough pixels.
+- Report the delivered ratio under the frame if it differs from the request.
 
 ## TSUBAKI3 (PixAI flagship)
 
