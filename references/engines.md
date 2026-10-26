@@ -80,7 +80,7 @@ Prompt rules (official guide + workflow):
 - Only official Haruka base model as of 2026-10 (PixAI docs + API model list). "Haruka … v3/.3" items on PixAI are user LoRAs.
 - **Tag-based**, comma-separated Danbooru tags. Order: quality → subject count → character tags → outfit → pose → camera → setting → light.
 - Quality head (Illustrious-family convention, community): `masterpiece, best quality, very aesthetic, absurdres`.
-- Subject: `1girl, solo, adult, mature female` (then features). For two: `1girl, 1boy`.
+- Subject: `1woman, solo, adult, mature female` (then features). For two: `1woman, 1man`. (Rafael 2026-10-26: never `1girl`.)
 - Emphasis syntax: `(token:1.2)`; keep weights 1.1–1.4.
 - **Model-page defaults (verified):** steps **28**, sampler **Euler a**, CFG **5**. Allowed samplers (API): Euler a, Euler, LMS, Heun, DPM2 Karras, DPM2 a Karras, DDIM, DPM++ 2M Karras, DPM++ 2S a Karras, DPM++ SDE Karras, DPM++ 2M SDE Karras, Restart. CFG 6–7 for stricter following and VAE PPPAnimix are community advice **(unverified)**.
 - Default negative on the model page already contains `text, artist name, signature, watermark, username` — and also `simple background`: **remove `simple background` for ISO sheets** (Mio wants a plain backdrop). Mio's negative: `lowres, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, worst quality, low quality, jpeg artifacts, photorealistic, 3d, blurry` + `child, loli, teen` + the NO-TEXT tag list (`no-text.md`).
@@ -103,7 +103,7 @@ PixAI docs: v2 = retro anime aesthetic from simple prompts ("a highly popular st
 
 | NL (lock) | Tags |
 |---|---|
-| adult woman, 25, mature face | `1girl, solo, adult, mature female, mature face` |
+| adult woman, 25, mature face | `1woman, solo, adult, mature female, mature face` |
 | full body head to toe, feet in frame | `full body, standing, feet visible` |
 | cowboy shot | `cowboy shot` |
 | three-quarter view looking back | `from side, looking back, three-quarter view` |
