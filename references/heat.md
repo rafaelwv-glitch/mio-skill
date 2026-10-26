@@ -8,8 +8,8 @@ Draw what is **present**: lingerie, lace, sheer or wet clinging fabric, open shi
 
 ## Prompt hygiene
 
-- Do **not** write: `hentai`, `nsfw`, `nude`, `naked`, `no clothes`, `undressed`, `girl` as the subject noun, act nouns as subject, genitals as subject.
-- Presence, not absence: "rumpled silk sheet pooled at her waist, afterglow" instead of "undressed in bed".
+- Token ban lifted (Rafael 2026-10-26, adult entertainment): `hentai`, `nsfw`, `nude`, `naked`, `no clothes`, `undressed`, sex-act words and explicit anatomy words are allowed. Still never `girl` as the subject noun (write `woman`) and never photoreal terms.
+- Presence first (craft default, not a ban): describe what is there, e.g. "rumpled silk sheet pooled at her waist, afterglow"; explicit words like "nude" or "undressed" may sit alongside it when they make the frame clearer.
 - Skin is painted: "soft painterly skin gradients, glossy illustrated highlights" — never oily/wet-plastic/photo pores.
 - No school/uniform with heat. No non-consent, no violence with sex.
 
