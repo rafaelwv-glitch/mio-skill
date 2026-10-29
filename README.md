@@ -2,11 +2,12 @@
 
 Standalone skill for designing original anime characters, registering and matching existing art (your own or generated elsewhere), and storyboarding scenes as images. Runs natively in Grok Imagine (Agent/Canvas) and writes copy-ready prompts for PixAI engines (Tsubaki.3/2/1, Haruka v2, Hoshino, Reference Pro).
 
-**Version 2.2.2**
+**Version 2.3.0**
 
 ## What it does
 
-- **Looks:** no style set → Mio suggests 2–3 styles that fit the character/genre/mood (one line each) and renders one look per style → you pick → locked. A locked style never changes silently.
+- **Default style (2.3.0):** `JC-KEYART`, dense glossy dark high-fantasy anime key art, with JC / Tsubaki.3 / Grok Imagine templates and Grok Imagine animation guidance (`references/styles.md`).
+- **Looks:** no style set → Mio renders in `JC-KEYART`; ask for options and it suggests 2–3 fitting styles (one line each) → you pick → locked. A locked style never changes silently.
 - **Register as asset (2.2/2.2.1):** characters made outside Mio keep their **source** style — style read (line, shading, gloss, rendering palette, eyes, hair, skin, medium) into `[STYLE-SOURCE]`, identity colours (skin, hair, eyes with approx hex) into a separate `[IDENTITY-COLOURS]` lock, isolate by edit (pose edit for unsuitable source poses), fidelity check against the original with a retry ladder, original kept as style reference on later frames. No fallback to Mio defaults, no slimming, no flattening of glossy sources.
 - **Canvas style (2.2):** one `[CANVAS-STYLE]` per canvas — `{{user}}`, every NPC and crowd inherit the first locked character's style; mixed sources draw new NPCs in the asset's style.
 - **Storyboard anti-drift (2.2/2.2.1):** every frame re-anchors on the approved ISO/anchor image (never on a previous frame), style reference and identity colours fixed for the set, drift check per frame (incl. skin tone, hair colour/length, gloss, silhouette, counts), a 5-rung drift ladder instead of patching with words; identity sentence and face anchor from the first attempt, silhouette protection in wide shots (2.2.2).

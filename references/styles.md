@@ -1,6 +1,6 @@
 # Style library
 
-**Rule 1 — suggest, don't default:** when no style is set, Mio proposes **2–3 fitting IDs** from the Fit Map (one short line each) and renders one LOOK per ID. Fallback when the brief gives nothing to go on: `KEYVIS` · `PAINT` · `CEL00`.
+**Rule 1 — default `JC-KEYART` (2.3.0):** when no style is set, Mio uses **`JC-KEYART`** (below) as the canvas style. Only if the user asks for options does Mio propose 2–3 fitting IDs from the Fit Map (one short line each), with `JC-KEYART` as slot 1. All other IDs remain available by name.
 **Rule 2 — lock is law:** the chosen ID + 4–6 of its tokens become `[CANVAS-STYLE]`, reprinted verbatim every frame. A locked style never changes silently — only on explicit user request, then locks are reprinted. Mixing two IDs requires an explicit ask; write both IDs in the block.
 **Rule 3 — one canvas, one style:** every character on the canvas (OC, `{{user}}`, NPCs, crowd) inherits `[CANVAS-STYLE]` (`storyboard-consistency.md` §5). A style describes rendering only; skin, hair and eye colours belong to each character's `[IDENTITY-COLOURS]`.
 **Rule 4 — external sources stay themselves:** a registered asset uses `[STYLE-SOURCE] EXT:<label>` (`original-art.md`). Library IDs are vocabulary for describing it, never a replacement.
@@ -10,7 +10,73 @@
 
 Format: `ID` · label · **tokens** (NL; pick 4–6) · tag hint (HARUKA) · use / avoid.
 
-## Fit Map (suggestions when no style is set)
+## DEFAULT style — `JC-KEYART` · dense glossy dark high-fantasy anime key art (2.3.0)
+
+Locked as Mio's **default** by the user on 2026-10-29 (source: style study of a live JuicyChat bot's art, style only, never its characters). Used whenever no style is named (SKILL.md §2). All other library IDs stay available on request or via the Fit Map.
+
+### Style block (slot ①, copy verbatim)
+[CANVAS-STYLE] JC-KEYART — 2D anime illustration of an original fictional adult, not a photograph. Dark high-fantasy anime key art, glossy game-splash finish. Thin, crisp, uniform dark-brown lineart with dense ornamental interior detail. Hard cel shadows over smooth airbrushed gradients. Strong glossy specular highlights with bright white hotspots on metal, gems and the hair band; crisp single catchlights in layered anime irises; satin skin. Cool navy-indigo shadows (never pure black) lit by saturated jewel-tone accents (emerald, royal blue, violet, gold) and a warm torchlight counter-light; moonlit rim light from behind; floating light motes; faint haze; fully rendered gothic-fantasy environment.
+
+### Prop rule and full-body framing (every prompt)
+- **Every prop named, no unrequested props.** List each prop as "exactly N <prop>", say which hand holds it, then add: "no other props; nothing else in the hands". Name the background furniture too (e.g. "exactly two hanging lanterns") and end with "no other props, no skulls, no vials, no glass tanks, no scrolls". Style refs carry props over, so always say "take ONLY the rendering style, not the characters, props or backgrounds".
+- **Full-body framing:** "entire figure visible head to toe, both feet fully in frame with floor space below the feet, small headroom above the head, figure centred". Never combine it with close-up words.
+
+### Framing variants (slot ⑤)
+- **3:4 bio portrait:** full-body framing as above, slightly low angle, figure filling about 85% of the height, background environment rendered behind.
+- **16:9 greeting:** cinematic wide shot, characters at mid-ground on a diagonal, deep environment with haze, a dominant magic glow in one third, crowds or armies only if named.
+- **9:16 greeting:** vertical cinematic shot, full figure in the lower two-thirds, tall architecture or a magic effect rising above, low angle.
+- **1:1 PFP:** bust shot from mid-chest up, face in the upper third, three-quarter view, eye catchlights and the hair gloss emphasised, background soft and blurred but in palette.
+
+### Style read (vocabulary)
+- **Medium:** 2D digital anime key art, a polished SDXL-anime "illustrious/pony-style" finish. It's dense, high-detail, game-splash quality. It isn't painterly-loose and it isn't photoreal.
+- **Linework:** thin, crisp, dark-brown/black lines with uniform weight. The fine interior lines on filigree, chainmail and embroidery are very dense. Faces have light lines.
+- **Shading:** a hybrid. Hard cel shadow shapes on faces and skin sit on smooth airbrushed gradients. Cloth gets soft, rendered folds. Metal and gems get glossy speculars with bright white hotspots.
+- **Palette and temperature:** cool overall. The ambient is deep navy/indigo-black, lit by jewel-tone accents: necromantic emerald-green fire, royal blue + ivory + gold, violet velvet, and warm orange torch/fire as a counter-light. Saturation is high in the accents and low in the shadows. Blacks are lifted to navy, never pure black.
+- **Lighting:** always several sources. Cool moonlight/blue rim from the back windows, a warm key from torches, and coloured magic glow (green or blue) that casts coloured bounce onto the figure. Floating light motes and embers appear often, and wet floors give reflections.
+- **Eyes:** medium-large anime eyes with layered irises, a darker top band, one strong catchlight and a soft lower gradient. Lashes are defined but not heavy.
+- **Hair:** strand-detailed clumps with a glossy band highlight and many fine flyaway strands. Long hair is wavy and voluminous.
+- **Skin:** smooth and warm-neutral, with a soft cel shadow under the jaw/collarbone, a slight blush, and a satin sheen on the shoulders.
+- **Faces and proportions:** mature adult faces (late 20s to 60s, which shows the cast's age range), defined jaws and noses. Bodies are tall at 1:7 to 1:8, with heroic but realistic anatomy.
+- **Backgrounds:** a fully rendered environment every time. Gothic castle halls, vaults, balconies, a white-and-teal city, ruins. They're dense with props (braziers, banners, ivy, pillars, spires through windows), with atmospheric haze and depth.
+- **Composition and camera:** bios are a 3:4 full-body or 3/4 standing portrait, slightly low angle, figure centred and filling the height. Greetings are 16:9 or 9:16 cinematic wides with crowds and dynamic diagonals.
+- **Engine hints:** the look and the 1086×1448 / 995×560 sizes point to JuicyChat's SDXL-anime models (the Yuzz Highball / illustrious-type finish). The high detail and glossy speculars rule out Grok's satin look, though Grok Imagine gets close.
+
+### Prompt templates (replace [CHARACTER] and [PROPS])
+#### JC: Yuzz Highball (CFG 7, 28–30 steps; 3:4 / 16:9 / 9:16 / 1:1)
+```
+masterpiece, best quality, very aesthetic, absurdres, anime, dark fantasy, high fantasy, key art, solo, adult, mature, [CHARACTER TAGS], [PROP TAGS], ornate clothes, gold trim, filigree, full body, standing, feet in frame, from below, gothic castle interior, moonlight, window, night, dark blue theme, rim lighting, backlighting, multiple light sources, glowing, light particles, reflective floor, detailed background, intricate details, thin lineart, cel shading, glossy, specular highlights, shiny metal, sparkling gems, shiny hair, detailed eyes, eye highlights, sharp focus
+```
+Subject tag: `1woman, mature female` or `1man, mature male`. For 1:1 swap `full body, standing, feet in frame` for `upper body, portrait`; for 16:9 use `wide shot, scenery`.
+Negative:
+```
+lowres, worst quality, low quality, bad anatomy, bad hands, extra fingers, missing fingers, extra limbs, child, loli, shota, petite, aged down, gap teeth, missing tooth, text, speech bubble, logo, watermark, signature, username, photorealistic, realistic, 3d, photo, blurry, flat colors, matte, thick lineart, sketch, monochrome, simple background, cropped legs, out of frame
+```
+
+#### PixAI / Mio: Tsubaki.3
+```
+character: original, a single [FORMAT] illustration. [CANVAS-STYLE block verbatim]. [FORMAT framing line]. [CHARACTER: adult, 25+, mature face, head-to-body 1:7, hair, eyes, outfit, pose]. Props: [exactly N named props, which hand]; no other props, nothing else in the hands. Setting: [named location and furniture]; no other props. The light does not change skin tone or hair colour. No speech bubbles, no text, no captions, no lettering, no sound-effect or onomatopoeia lettering, no comic panels, no watermark, no signature. Correct hands, five fingers, no extra limbs.
+```
+Negative: `photorealistic, 3d render, photo, child, teen, petite, gap teeth, missing tooth, text, letters, watermark, matte, flat colours, thick outlines, sketch, blurry, extra fingers, cropped feet, extra props`
+Use one bio PNG as `@image1` with the line "take only the rendering style".
+
+#### Grok Imagine
+Use the same structure as Tsubaki.3, without `character: original,`, opening with: "From references 1 and 2 take ONLY the rendering style, not the characters, props or backgrounds. Match the references' rendering exactly; do not restyle." Attach two bio PNGs (tested with bio_06 and bio_10). Known limit: Grok's gloss lands a step below JC's.
+
+### Animation — Grok Imagine video (JC-KEYART)
+- **Start from an approved JC-KEYART still** (PNG) as the first frame; never animate from text alone. Prompt describes motion only, the still carries the style.
+- **Keep the gloss and lighting:** "keep the exact rendering of the source image: glossy specular highlights on metal, gems and hair, crisp thin lineart, hard cel shadows, navy-indigo shadows, the same coloured light sources and rim light; no change in colour grading, exposure or light direction".
+- **Camera:** static, or one slow move only (slow push-in, slow pan or gentle parallax); no cuts, no zoom bursts, no shake, no orbit.
+- **Motion:** small, physical and continuous: hair and cloth sway, cape/skirt drift, floating light motes and embers rising, flame and magic-glow flicker, breathing, a blink, a slow head turn or hand gesture. One main action per clip.
+- **Loop-safe:** "the final frame returns to the same pose, camera position and lighting as the first frame; motion is cyclic (sway out and back), seamless loop". Avoid one-way actions (walking out, drawing a sword fully) in loop clips; put those in a non-loop beat.
+- **No ghosting / morphing:** "stable anatomy and face, no ghosting, no double exposure, no motion trails, no morphing, no flicker on lineart, five fingers on each hand, identity unchanged".
+- **No extra props or text:** "no new objects, props, characters or text appear; nothing enters the hands; background stays as in the source".
+- Template:
+```
+Animate the source image. [ONE MAIN ACTION]. Secondary motion: [hair/cloth sway, motes, flame flicker]. Camera: [static | slow push-in]. Keep the exact rendering of the source image: glossy specular highlights on metal, gems and hair, crisp thin lineart, hard cel shadows, navy-indigo shadows, same coloured lights and rim light, no colour or exposure shift. Stable face and anatomy, adult proportions unchanged, no ghosting, no double exposure, no motion trails, no morphing. No new objects, props, characters or text. Final frame returns to the first frame's pose, camera and lighting for a seamless loop.
+```
+- Delivery: animated WebP (loop), ≤ ~3 MB for hosting; PNG first-frame still alongside. QA the start/end frames for a visible jump and every frame for added props, ghosting or gap teeth.
+
+## Fit Map (suggestions when the user asks for style options)
 
 | Brief reads as | Suggest (pick 2–3) |
 |---|---|

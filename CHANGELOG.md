@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.0 — 2026-10-29
+- **New default style `JC-KEYART`** (dense glossy dark high-fantasy anime key art), locked by the user: style block, prop rule ("exactly N props, no other props"), full-body framing, framing variants (3:4 bio, 16:9 / 9:16 greeting, 1:1 PFP), JC (Yuzz Highball), Tsubaki.3 and Grok Imagine templates with negatives (`references/styles.md`).
+- **Animation section:** Grok Imagine video guidance for `JC-KEYART`: animate from an approved still, keep gloss and lighting, static or one slow camera move, loop-safe start/end, no ghosting/morphing, no new props or text; WebP loop + PNG still delivery.
+- **Default behaviour:** no style named → `JC-KEYART` (was: 2–3 Fit Map suggestions, fallback `KEYVIS`·`PAINT`·`CEL00`). Fit Map suggestions now only on request, with `JC-KEYART` as slot 1. All other styles unchanged and available. Hard limits unchanged.
+
 ## 2.2.2 — 2026-10-07
 Fixes from the second test run (EXT asset, 4-slot storyboard on Grok).
 - **Hair/skin colour drift:** identity-colour drift on a single-figure frame goes straight to **R2** (anchor edit); with several figures R1 once → R3 → R2. **ANCHOR-FACE** rides as an extra reference (Ref3) whenever the face is medium-size or larger; the setting ref is dropped first.
